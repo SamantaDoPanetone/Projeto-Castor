@@ -58,7 +58,7 @@ cd castor (raiz do projeto)
 
 mvn clean install -DskipTests
 
-o uso de -DskipTests serve para pular os testes
+Nota: o uso de -DskipTests serve para pular os testes
 ```
 
 Executar o projeto:
