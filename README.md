@@ -1,7 +1,12 @@
 # Sistema de Restaurante
-README Técnico – Spring Boot
 
-### Stack
+## Introdução
+
+Este projeto consiste em um **sistema de restaurante desenvolvido com foco em estudo e aprendizado**.  
+Ele foi criado para explorar conceitos de arquitetura de software, desenvolvimento backend com Java/Spring e construção de aplicações web, servindo como base para experimentação, evolução e aprofundamento técnico.
+
+
+### Stack Tecnológico
 - Java 17
 - Spring Boot 3.2.x
 - Flyway
@@ -82,6 +87,19 @@ MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" 
 mvn spring-boot:run
 ```
 
+Reparar flyway em caso de script com erros
+
+```bash
+mvn flyway:repair
+```
+
+Caso ocorra erros de execução parcial nas tabelas e precise limpar tudo  
+Nota: Faça isso somente em DEV/QA e para PROD, fazer dump antes
+
+```bash
+mvn flyway:clean -Dflyway.cleanDisabled=false
+```
+
 ## Acessar páginas
 
 - Exemplo de acesso com parametro de pesquisa
@@ -97,3 +115,19 @@ http://localhost:8080/page
 ```bash
 http://localhost:8080/style
 ```
+
+# Objetivo desse projeto
+
+Este projeto é um **sistema de restaurante desenvolvido com fins exclusivamente acadêmicos e de estudo**.  
+Seu objetivo é explorar conceitos de arquitetura de software, backend com Java/Spring, persistência de dados, migrations, e construção de interfaces web.
+
+⚠️ **Aviso importante**  
+Este sistema **não foi projetado, validado ou auditado para uso em produção**.  
+Qualquer utilização em ambientes reais, comerciais ou críticos deve passar por **análise técnica, validação de segurança, testes aprofundados e adequações específicas**.
+
+Os autores **não se responsabilizam** por uso indevido, perdas de dados, falhas operacionais ou qualquer impacto decorrente do uso deste projeto fora do contexto de estudo.
+
+Em resumo:
+- 📘 Projeto acadêmico
+- 🧪 Foco em aprendizado e experimentação
+- 🚫 Não recomendado para produção sem avaliação formal

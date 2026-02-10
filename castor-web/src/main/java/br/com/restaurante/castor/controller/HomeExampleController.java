@@ -1,14 +1,19 @@
 package br.com.restaurante.castor.controller;
 
 import br.com.restaurante.castor.dtos.PessoaDTO;
+import br.com.restaurante.castor.dtos.PessoaFormDTO;
 import br.com.restaurante.castor.facades.ExampleFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -24,17 +29,62 @@ public class HomeExampleController
     }
 
     @GetMapping("/page")
-    public String page(@RequestParam(value = "name", required = false) String name, Model model)
+    public String page(Model model, RedirectAttributes redirectAttributes)
     {
         LOGGER.info("Chamou page");
-        model.addAttribute("name", name);
 
-        List<PessoaDTO> pessoas = exampleFacade.searchPessoaByName(name);
-        model.addAttribute("pessoas", pessoas);
-
-        PessoaDTO pessoaDTO = exampleFacade.findByName(name);
-        model.addAttribute("pessoa", pessoaDTO);
+        try
+        {
+            List<PessoaDTO> pessoas = exampleFacade.findAllPessoas();
+            model.addAttribute("pessoas", pessoas);
+        }
+        catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao listar pessoas!");
+            model.addAttribute("pessoas", Collections.emptyList());
+            LOGGER.error("Erro", e);
+        }
 
         return "example";
+    }
+
+    @PostMapping("/save")
+    public String save(@ModelAttribute PessoaFormDTO pessoaDTO, RedirectAttributes redirectAttributes) {
+
+        LOGGER.info("Chamou save");
+        LOGGER.info(pessoaDTO.toString());
+
+        try
+        {
+            exampleFacade.save(pessoaDTO);
+            redirectAttributes.addFlashAttribute("successMessage", "Pessoa salva com sucesso!");
+        }
+        catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao salvar/editar pessoa!");
+            LOGGER.error("Erro", e);
+        }
+
+        return "redirect:/page";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+
+        LOGGER.info("Chamou delete");
+        LOGGER.info(String.valueOf(id));
+
+        try
+        {
+            exampleFacade.delete(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Pessoa excluída com sucesso!");
+        }
+        catch (Exception e)
+        {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir pessoa!");
+            LOGGER.error("Erro", e);
+        }
+
+        return "redirect:/page";
     }
 }

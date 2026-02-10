@@ -2,6 +2,7 @@ package br.com.restaurante.castor.services.impl;
 
 import br.com.restaurante.castor.daos.ExamplePessoaDao;
 import br.com.restaurante.castor.domain.Pessoa;
+import br.com.restaurante.castor.exceptions.PessoaNotFoundException;
 import br.com.restaurante.castor.repositories.ExamplePessoaRepository;
 import br.com.restaurante.castor.services.ExampleService;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +34,32 @@ public class DefaultExampleService implements ExampleService
     }
 
     @Override
+    public Pessoa findById(Long id)
+    {
+        return examplePessoaRepository.findById(id).orElseThrow(() -> new PessoaNotFoundException(id));
+    }
+
+    @Override
+    public void save(Pessoa pessoa)
+    {
+        examplePessoaRepository.save(pessoa);
+    }
+
+    @Override
+    public void delete(Pessoa pessoa)
+    {
+        examplePessoaRepository.delete(pessoa);
+    }
+
+    @Override
     public Pessoa findByName(String name) {
         Optional<Pessoa> optionalPessoa = examplePessoaRepository.findByName(name);
         return optionalPessoa.orElse(null);
+    }
+
+    @Override
+    public List<Pessoa> findAllPessoas()
+    {
+        return examplePessoaRepository.findAll();
     }
 }
