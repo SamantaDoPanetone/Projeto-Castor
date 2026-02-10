@@ -1,18 +1,11 @@
-package br.com.restaurante.castor.domain;
+package br.com.restaurante.castor.dtos;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "pessoateste")
-public class Pessoa extends BaseEntity
+public class PessoaFormDTO
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
-    public Pessoa()
+    public PessoaFormDTO()
     {
     }
 

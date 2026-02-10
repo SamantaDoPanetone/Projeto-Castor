@@ -9,4 +9,12 @@ public interface ExampleService
     List<Pessoa> searchPessoaByName(String nome);
 
     Pessoa findByName(String nome);
+
+    List<Pessoa> findAllPessoas();
+
+    Pessoa findById(Long id);
+
+    void save(Pessoa pessoa);
+
+    void delete(Pessoa pessoa);
 }
