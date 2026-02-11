@@ -49,7 +49,7 @@ public class HomeExampleController
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute PessoaFormDTO pessoaDTO, RedirectAttributes redirectAttributes) {
+    public String save(@ModelAttribute PessoaFormDTO pessoaDTO, Model model) {
 
         LOGGER.info("Chamou save");
         LOGGER.info(pessoaDTO.toString());
@@ -57,19 +57,20 @@ public class HomeExampleController
         try
         {
             exampleFacade.save(pessoaDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Pessoa salva com sucesso!");
+            model.addAttribute("successMessage", "Pessoa salva com sucesso!");
         }
         catch (Exception e)
         {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao salvar/editar pessoa!");
+            model.addAttribute("errorMessage", "Erro ao salvar/editar pessoa!");
             LOGGER.error("Erro", e);
         }
 
-        return "redirect:/page";
+        model.addAttribute("pessoas", exampleFacade.findAllPessoas());
+        return "fragments/pessoas-content :: content";
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@RequestParam Long id, Model model) {
 
         LOGGER.info("Chamou delete");
         LOGGER.info(String.valueOf(id));
@@ -77,14 +78,16 @@ public class HomeExampleController
         try
         {
             exampleFacade.delete(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Pessoa excluída com sucesso!");
+            model.addAttribute("successMessage", "Pessoa excluída com sucesso!");
         }
         catch (Exception e)
         {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao excluir pessoa!");
+            model.addAttribute("errorMessage", "Erro ao excluir pessoa!");
             LOGGER.error("Erro", e);
         }
 
-        return "redirect:/page";
+        model.addAttribute("pessoas", exampleFacade.findAllPessoas());
+        return "fragments/pessoas-content :: content";
     }
+
 }
